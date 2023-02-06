@@ -10,4 +10,18 @@ export const theme = extendTheme({
       900: "#1a202c",
     },
   },
+  fonts: {
+    body: "Open Sans, sans-serif"
+  },
+  styles: {
+    global: () => ({
+      body: {
+        bg: 'gray.300'
+      }
+    })
+  },
+  //every components that's will be apply to all comment from chakra-ui
+  components:{
+    // Button
+  }
 })
