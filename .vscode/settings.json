@@ -1,5 +1,8 @@
 {
-  "editor.fontFamily": " fira code",
+  "editor.fontFamily": "'Cascadia Code'",
   "editor.fontLigatures": true,
-  "editor.codeLensFontFamily": "fira code"
+  "editor.codeLensFontFamily": "fira code",
+  "editor.formatOnPaste": true,
+  "editor.formatOnSave": true,
+  "editor.formatOnType": true
 }
