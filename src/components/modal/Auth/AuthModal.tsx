@@ -1,25 +1,25 @@
-import { authModaState } from "@/atoms/authModalAtom";
+import { authModalState } from "@/atoms/authModalAtom";
+import { auth } from "@/firebase/clientApp";
 import {
-  useDisclosure,
-  Button,
+  Flex,
   Modal,
-  ModalOverlay,
+  ModalBody,
+  ModalCloseButton,
   ModalContent,
   ModalHeader,
-  ModalCloseButton,
-  ModalBody,
-  ModalFooter,
-  Flex,
+  ModalOverlay,
   Text,
 } from "@chakra-ui/react";
-import React from "react";
+import React, { useEffect } from "react";
+import { useAuthState } from "react-firebase-hooks/auth";
 
 import { useRecoilState } from "recoil";
 import AuthInput from "./AuthInput";
 import OAuthButton from "./OAuthButton";
 
 const AuthModal: React.FC = () => {
-  const [modalState, setModalState] = useRecoilState(authModaState);
+  const [modalState, setModalState] = useRecoilState(authModalState);
+  const [user, loading, error] = useAuthState(auth);
 
   const handleClose = () => {
     setModalState((prev) => ({
@@ -27,11 +27,15 @@ const AuthModal: React.FC = () => {
       open: false,
     }));
   };
+
+  // checking if user is logned in
+  useEffect(() => {
+    if (user) handleClose();
+    console.log("user", user);
+  }, [user]);
+
   return (
     <>
-      {/* get ride of the button on the section and adding recoil */}
-      {/* <Button onClick={onOpen}>Open Modal</Button> */}
-
       <Modal isOpen={modalState.open} onClose={handleClose}>
         <ModalOverlay />
         <ModalContent>
@@ -63,13 +67,6 @@ const AuthModal: React.FC = () => {
               {/* <ResetPassword */}
             </Flex>
           </ModalBody>
-
-          {/* <ModalFooter>
-                        <Button colorScheme='blue' mr={3} onClick={handleClose}>
-                            Close
-                        </Button>
-                        <Button variant='ghost'>Secondary Action</Button>
-                    </ModalFooter> */}
         </ModalContent>
       </Modal>
     </>

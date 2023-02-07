@@ -1,22 +1,44 @@
-import { authModaState } from "@/atoms/authModalAtom";
-import { Input, Button, Flex, Text } from "@chakra-ui/react";
+import { authModalState } from "@/atoms/authModalAtom";
+import { auth } from "@/firebase/clientApp";
+import { FIREBASE_ERRORS } from "@/firebase/errors";
+import { Button, Flex, Input, Text } from "@chakra-ui/react";
 import React, { useState } from "react";
+import { useCreateUserWithEmailAndPassword } from "react-firebase-hooks/auth";
 import { useSetRecoilState } from "recoil";
 
 const SignUp: React.FC = () => {
-  const setAuthModalState = useSetRecoilState(authModaState);
-  const [signUpForm, setSignUpForm] = useState({
+  const setAuthModalState = useSetRecoilState(authModalState);
+  const [form, setForm] = useState({
     email: "",
     password: "",
     confirmPassword: "",
   });
+  const [formError, setFormError] = useState("");
+  const [createUserWithEmailAndPassword, _, loading, authError] =
+    useCreateUserWithEmailAndPassword(auth);
 
-  const onSubmit = () => {};
+  const onSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    if (formError) setFormError("");
+    if (!form.email.includes("@")) {
+      return setFormError("Please enter a valid email");
+    }
 
-  const onChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setSignUpForm((prev) => ({
+    if (form.password !== form.confirmPassword) {
+      setFormError("Passwords do not match");
+      return;
+    }
+
+    // Valid form inputs
+    createUserWithEmailAndPassword(form.email, form.password);
+  };
+
+  const onChange = ({
+    target: { name, value },
+  }: React.ChangeEvent<HTMLInputElement>) => {
+    setForm((prev) => ({
       ...prev,
-      [event.target.name]: event.target.value,
+      [name]: value,
     }));
   };
 
@@ -45,7 +67,7 @@ const SignUp: React.FC = () => {
       />
       <Input
         required
-        name="passowrd"
+        name="password"
         placeholder="password"
         type="password"
         mb={2}
@@ -87,17 +109,24 @@ const SignUp: React.FC = () => {
         }}
         bg="gray.50"
       />
+      {(formError || authError) && (
+        <Text textAlign="center" color="red" fontSize="10pt">
+          {formError ||
+            FIREBASE_ERRORS[authError?.message as keyof typeof FIREBASE_ERRORS]}
+        </Text>
+      )}
       <Button
         bg="blue.300"
         color="white"
+        mt={2}
+        mb={2}
         _hover={{
           bg: "orange.500",
         }}
         rounded="md"
         w="100%"
         type="submit"
-        mt={2}
-        mb={2}
+        isLoading={loading}
       >
         Sign Up
       </Button>
