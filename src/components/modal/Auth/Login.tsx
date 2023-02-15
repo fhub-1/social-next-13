@@ -21,6 +21,7 @@ const Login: React.FC<LoginProps> = () => {
     useSignInWithEmailAndPassword(auth);
 
   const onSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
     if (formError) setFormError("");
     if (!loginForm.email.includes("@")) {
       setFormError("Please enter a valid email");
@@ -62,7 +63,7 @@ const Login: React.FC<LoginProps> = () => {
       />
       <Input
         required
-        name="passowrd"
+        name="password"
         placeholder="password"
         type="password"
         mb={2}
@@ -94,6 +95,7 @@ const Login: React.FC<LoginProps> = () => {
         rounded="md"
         w="100%"
         type="submit"
+        isLoading={loading}
         mt={2}
         mb={2}
       >

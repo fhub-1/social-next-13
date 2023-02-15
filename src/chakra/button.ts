@@ -30,6 +30,7 @@ const Button: ComponentStyleConfig = {
         color: "red.500",
         border: "1px solid",
         borderColor: "blue.500",
+        rounded:"lg"
       },
       oauth: {
         height: "34px",

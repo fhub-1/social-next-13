@@ -39,9 +39,14 @@ const AuthModal: React.FC = () => {
       <Modal isOpen={modalState.open} onClose={handleClose}>
         <ModalOverlay />
         <ModalContent>
-          <ModalHeader textAlign="center">
-            {modalState.view === "login" && "Sign in to your account"}
-            {modalState.view === "signup" && "Sign Up in to your account"}
+          <ModalHeader
+            textAlign="center"
+            fontSize="15pt"
+            fontFamily="mono"
+            letterSpacing={2}
+          >
+            {modalState.view === "login" && "Good to 🙈 you Back"}
+            {modalState.view === "signup" && "Sign Up for  account"}
             {modalState.view === "resetPassword" && "Reset your passowrd"}
           </ModalHeader>
           <ModalCloseButton />
