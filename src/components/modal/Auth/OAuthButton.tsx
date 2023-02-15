@@ -1,10 +1,14 @@
 import { auth } from "@/firebase/clientApp";
 import { Button, Flex, Image, Text } from "@chakra-ui/react";
 import React from "react";
-import { useSignInWithGoogle } from "react-firebase-hooks/auth";
+import {
+  useSignInWithGoogle,
+  useSignInWithGithub,
+} from "react-firebase-hooks/auth";
 
 const OAuthButton: React.FC = () => {
   const [signInWithGoogle, user, loading, error] = useSignInWithGoogle(auth);
+  // const [signInWithGithub, user, loading, error] = useSignInWithGithub(auth);
   return (
     <Flex direction="column" width="100%" mt={4}>
       <Button
@@ -41,6 +45,7 @@ const OAuthButton: React.FC = () => {
         type="submit"
         mt={2}
         mb={2}
+        // onClick={() => useSignInWithGithub()}
       >
         Add some Social Providers
       </Button>
